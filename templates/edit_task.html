@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+    <h2>Edit Task</h2>
+    <form method="post" class="form">
+        <input name="title" value="{{ task.title }}" required>
+
+        <select name="section" required>
+            {% for section in sections %}
+                <option value="{{ section.name }}" {% if section.name == task.section %}selected{% endif %}>{{ section.name }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="status">
+            {% for status in statuses %}
+                <option {% if status == task.status %}selected{% endif %}>{{ status }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="priority">
+            {% for priority in priorities %}
+                <option {% if priority == task.priority %}selected{% endif %}>{{ priority }}</option>
+            {% endfor %}
+        </select>
+
+        <textarea name="notes">{{ task.notes }}</textarea>
+        <button type="submit">Save Task</button>
+        <a class="btn secondary" href="{{ url_for('tasks') }}">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

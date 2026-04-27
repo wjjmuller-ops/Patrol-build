@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+    <h2>Edit Build Update</h2>
+    <form method="post" class="form">
+        <input name="title" value="{{ update.title }}" required>
+
+        <select name="section" required>
+            {% for section in sections %}
+                <option value="{{ section.name }}" {% if section.name == update.section %}selected{% endif %}>{{ section.name }}</option>
+            {% endfor %}
+        </select>
+
+        <textarea name="notes">{{ update.notes }}</textarea>
+        <button type="submit">Save Update</button>
+        <a class="btn secondary" href="{{ url_for('updates') }}">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

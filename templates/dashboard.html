@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="grid">
+    <div class="card">
+        <h2>Overall Progress</h2>
+        <div class="progress">
+            <div style="width: {{ overall_progress }}%"></div>
+        </div>
+        <p class="big">{{ overall_progress }}%</p>
+    </div>
+
+    <div class="card">
+        <h2>Total Spend</h2>
+        <p class="big">R {{ "%.2f"|format(total_spend) }}</p>
+    </div>
+
+    <div class="card">
+        <h2>Tasks</h2>
+        <p class="big">{{ open_tasks }} open</p>
+        <p>{{ done_tasks }} done · {{ total_tasks }} total</p>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Section Progress</h2>
+    {% if section_progress %}
+        <div class="section-grid">
+            {% for section in section_progress %}
+                <div class="section-card">
+                    <div class="section-top">
+                        <strong>{{ section.name }}</strong>
+                        <span>{{ section.progress }}%</span>
+                    </div>
+                    <div class="progress small">
+                        <div style="width: {{ section.progress }}%"></div>
+                    </div>
+                    <small>{{ section.completed }}/{{ section.total }} tasks done</small>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No tasks yet. Add tasks to start seeing section progress.</p>
+    {% endif %}
+</div>
+
+<div class="grid two">
+    <div class="card">
+        <h2>Latest Parts</h2>
+        {% for part in parts %}
+            <div class="list-item">
+                <strong>{{ part.name }}</strong><br>
+                {{ part.section }} · <span class="badge {{ part.status|status_class }}">{{ part.status }}</span> · R {{ "%.2f"|format(part.price) }}
+            </div>
+        {% else %}
+            <p>No parts added yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h2>Latest Updates</h2>
+        {% for update in updates %}
+            <div class="list-item">
+                <strong>{{ update.title }}</strong><br>
+                {{ update.section }} · {{ update.created_at }}
+            </div>
+        {% else %}
+            <p>No updates added yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

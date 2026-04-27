@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+    <h2>Add Task</h2>
+    <form method="post" class="form">
+        <input name="title" placeholder="Task title" required>
+
+        <select name="section" required>
+            {% for section in sections %}
+                <option value="{{ section.name }}">{{ section.name }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="status">
+            {% for status in statuses %}
+                <option>{{ status }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="priority">
+            {% for priority in priorities %}
+                <option {% if priority == "Medium" %}selected{% endif %}>{{ priority }}</option>
+            {% endfor %}
+        </select>
+
+        <textarea name="notes" placeholder="Notes"></textarea>
+        <button type="submit">Add Task</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Tasks</h2>
+    {% for task in tasks %}
+        {% set progress = task_progress_value(task.status) %}
+        <div class="list-item">
+            <div class="item-header">
+                <strong>{{ task.title }}</strong>
+                <span class="badge {{ task.status|status_class }}">{{ task.status }}</span>
+            </div>
+            <div class="progress small">
+                <div style="width: {{ progress }}%"></div>
+            </div>
+            <p>{{ task.section }} · Priority: {{ task.priority }} · {{ progress }}%</p>
+            <small>{{ task.notes }}</small>
+            <div class="actions">
+                <a class="btn secondary" href="{{ url_for('edit_task', item_id=task.id) }}">Edit</a>
+                <form method="post" action="{{ url_for('delete_task', item_id=task.id) }}" onsubmit="return confirm('Delete this task?')">
+                    <button class="danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p>No tasks added yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
