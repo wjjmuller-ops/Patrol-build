@@ -1,33 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-
 <div class="card">
     <h2>Edit Task</h2>
-    <form method="post" class="form">
+    <form method="post" class="form" enctype="multipart/form-data">
         <input name="title" value="{{ task.title }}" required>
-
-        <select name="section" required>
-            {% for section in sections %}
-                <option value="{{ section.name }}" {% if section.name == task.section %}selected{% endif %}>{{ section.name }}</option>
-            {% endfor %}
-        </select>
-
-        <select name="status">
-            {% for status in statuses %}
-                <option {% if status == task.status %}selected{% endif %}>{{ status }}</option>
-            {% endfor %}
-        </select>
-
-        <select name="priority">
-            {% for priority in priorities %}
-                <option {% if priority == task.priority %}selected{% endif %}>{{ priority }}</option>
-            {% endfor %}
-        </select>
-
+        <select name="section" required>{% for section in sections %}<option value="{{ section.name }}" {% if section.name == task.section %}selected{% endif %}>{{ section.name }}</option>{% endfor %}</select>
+        <select name="status">{% for status in statuses %}<option {% if status == task.status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select>
+        <select name="priority">{% for priority in priorities %}<option {% if priority == task.priority %}selected{% endif %}>{{ priority }}</option>{% endfor %}</select>
         <textarea name="notes">{{ task.notes }}</textarea>
+        {% if task.photo %}<img class="thumb" src="{{ url_for('uploaded_file', filename=task.photo) }}" alt="Task photo">{% endif %}
+        <label class="file-label">Replace / add photo <input name="photo" type="file" accept="image/*"></label>
         <button type="submit">Save Task</button>
         <a class="btn secondary" href="{{ url_for('tasks') }}">Cancel</a>
     </form>
 </div>
-
 {% endblock %}

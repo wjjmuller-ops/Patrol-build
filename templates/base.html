@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Patrol Build Tracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1f2933">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -12,8 +13,12 @@
             <h1>Patrol Build Tracker</h1>
             <p>Nissan Patrol build progress log</p>
         </div>
+        {% if session.get("logged_in") %}
+            <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
     </header>
 
+    {% if session.get("logged_in") %}
     <nav class="nav">
         <a href="{{ url_for('dashboard') }}">Dashboard</a>
         <a href="{{ url_for('tasks') }}">Tasks</a>
@@ -21,6 +26,7 @@
         <a href="{{ url_for('costs') }}">Costs</a>
         <a href="{{ url_for('updates') }}">Updates</a>
     </nav>
+    {% endif %}
 
     <main class="container">
         {% block content %}{% endblock %}
