@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime
 
 app = Flask(__name__)
-DB_PATH = Path("patrol_build.db")
+DB_PATH = Path("/var/data/patrol_build.db")
 
 DEFAULT_SECTIONS = [
     "Engine",
